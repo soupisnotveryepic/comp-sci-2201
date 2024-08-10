@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 
+
 std::vector<int> str_to_vec(std::string str) {
   std::vector<int> result(str.size());
   for (auto i = 0; i < str.size(); i++) {
@@ -105,6 +106,7 @@ std::vector<int> multiplication(std::vector<int> num1, std::vector<int> num2, in
   return result;
 }
 
+
 std::vector<int> int_to_vec(int value, int B) {
   std::vector<int> vec;
   while (value > 0) {
@@ -116,6 +118,7 @@ std::vector<int> int_to_vec(int value, int B) {
 }
 
 std::vector<int> karatsuba(std::vector<int> num1, std::vector<int> num2, int B) {
+ 
   int n = std::max(num1.size(), num2.size());
   if (n = 3) {
     return multiplication(num1, num2, B); // school multiplication is n is smaller than 4
@@ -134,16 +137,18 @@ std::vector<int> karatsuba(std::vector<int> num1, std::vector<int> num2, int B) 
 
   // (a1 + a0) * (b1 + b0) - (a1 * b1 + a0 * b0)
   std::vector<int> P1 = subtraction(P0, addition(a0b0, a1b1, B), B);
-
-  std::vector<int> P2 =
-      multiplication(a1b1, int_to_vec(int(pow(B, mid * 2)), B), B);
-  std::vector<int> P3 = multiplication(P1, int_to_vec(int(pow(B, mid)), B), B);
-  std::vector<int> P4 = addition(P2, P3, B);
-
-  std::vector<int> ans = addition(P4, a0b0, B);
+ 
+  std::vector<int> ans(n * 2, 0); // final vector is 2 times the length
+    for (size_t i = 0; i < a1b1.size(); i++) {
+      ans.at(i + n) += a0b0.at(i);
+      ans.at(i + mid) += a0b0.at(i);
+      ans.at(i) += a1b1.at(i);
+      
+  }
 
   return ans;
 }
+
 
 int main() {
   std::string I1, I2;
