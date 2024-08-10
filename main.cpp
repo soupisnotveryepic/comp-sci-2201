@@ -140,10 +140,9 @@ std::vector<int> karatsuba(std::vector<int> num1, std::vector<int> num2, int B) 
  
   std::vector<int> ans(n * 2, 0); // final vector is 2 times the length
     for (size_t i = 0; i < a1b1.size(); i++) {
-      ans.at(i + n) += a0b0.at(i);
-      ans.at(i + mid) += a0b0.at(i);
-      ans.at(i) += a1b1.at(i);
-      
+      ans.at(i + n) += a0b0.at(i); // placing a0b0 at the end of the vector (least significant)
+      ans.at(i + mid) += P1.at(i); // placing P1 in middle starting at mid to "multiply by B^k"
+      ans.at(i) += a1b1.at(i); // placing a1b1 at MSB to "multiply by b^2k"
   }
 
   return ans;
