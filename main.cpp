@@ -7,7 +7,7 @@
 
 std::vector<int> str_to_vec(std::string str) {
   std::vector<int> result(str.size());
-  for (auto i = 0; i < str.size(); i++) {
+  for (size_t i = 0; i < str.size(); i++) {
     result.at(i) = str.at(i) - '0';
   }
   return result;
@@ -15,8 +15,8 @@ std::vector<int> str_to_vec(std::string str) {
 
 std::string vec_to_str(std::vector<int> vec) {
   std::string result;
-  for (int digit : vec) {
-    result += std::to_string(digit);
+  for (int i : vec) {
+    result += std::to_string(i);
   }
   return result;
 }
@@ -29,7 +29,7 @@ std::vector<int> addition(std::vector<int> num1, std::vector<int> num2, int B) {
   auto n2 = num2.size();
   auto max_size = std::max(n1, n2);
   // loop runs while i < max_size or while carry is non-zero
-  for (auto i = 0; i < max_size || carry; i++) {
+  for (size_t i = 0; i < max_size || carry; i++) {
     int digit1;
     if (i < n1) {
       digit1 = num1.at(n1 - i - 1);
@@ -58,7 +58,7 @@ std::vector<int> subtraction(const std::vector<int>& num1, const std::vector<int
   size_t n1 = num1.size();
   size_t n2 = num2.size();
 
-  for (auto i = 0; i < n1; ++i) {
+  for (size_t i = 0; i < n1; ++i) {
     int digit1 = num1.at(n1 - 1 - i);
     int digit2;
     if (i < n2) {
@@ -106,21 +106,10 @@ std::vector<int> multiplication(std::vector<int> num1, std::vector<int> num2, in
   return result;
 }
 
-
-std::vector<int> int_to_vec(int value, int B) {
-  std::vector<int> vec;
-  while (value > 0) {
-    vec.push_back(value % B); 
-    value /= B;                
-  }
-  std::reverse(vec.begin(), vec.end());  
-  return vec;
-}
-
 std::vector<int> karatsuba(std::vector<int> num1, std::vector<int> num2, int B) {
  
   int n = std::max(num1.size(), num2.size());
-  if (n = 3) {
+  if (n == 3) {
     return multiplication(num1, num2, B); // school multiplication is n is smaller than 4
   }
   int mid = ceil(mid / 2);
