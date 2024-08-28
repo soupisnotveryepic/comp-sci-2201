@@ -34,31 +34,31 @@ private:
         }  
     }
 
-    Node* rotate_right(Node* y) {
-        Node* temp1 = y->left;
-        Node* temp2 = temp1->right;
-        temp1->right = y;
-        y->left = temp2;
+    Node* rotate_right(Node* z) {
+        Node* y = z->left;
+        Node* T3 = y->right;
+        y->right = z;
+        z->left = T3;
         // recalculate height recursively
+        z->height = std::max(height(z->left), height(z->right)) + 1;
         y->height = std::max(height(y->left), height(y->right)) + 1;
-        temp1->height = std::max(height(temp1->left), height(temp1->right)) + 1;
-        return temp1;
+        return y;
     }
 
-    Node* rotate_left(Node* x) {
-        Node* temp1 = x->right;
-        Node* temp2 = temp1->left;
-        temp1->left = x;
-        x->right = temp2;
+    Node* rotate_left(Node* z) {
+        Node* y = z->right;
+        Node* T2 = y->left;
+        y->left = z;
+        z->right = T2;
         // recalculate height recursively
-        x->height = std::max(height(x->left), height(x->right)) + 1;
-        temp1->height = std::max(height(temp1->left), height(temp1->right)) + 1;
-        return temp1;
+        z->height = std::max(height(z->left), height(z->right)) + 1;
+        y->height = std::max(height(y->left), height(y->right)) + 1;
+        return y;
     }
 
     Node* insert(Node* node, int value) {
         if (!node) {
-            return new Node(value);
+            return new Node(value); // if node does not exist, make a new node and return that
         }
         if (value < node->value) {
             node->left = insert(node->left, value);
@@ -96,11 +96,11 @@ private:
         return node;
     }
 
-    Node* min_node(Node* node) {
+    Node* max_node(Node* node) {
         Node* current = node;
-        // keep going to the left side of the tree to find minimum value
-        while (current->left) {
-            current = current->left;
+        // keep going to the right side of the tree to find maximum value
+        while (current->right) {
+            current = current->right;
         }
         return current;
     }
@@ -117,17 +117,19 @@ private:
             // recursively call on right side of tree if value searching for is greater than root
             root->right = delete_node(root->right, value);
         } else {
-            if ((!root->left) || (!root->right)) {
+            if ((!root->left) || (!root->right)) { // if root has one or zero children
                 Node* temp = root->left ? root->left : root->right;
                 if (!temp) {
                     temp = root;
                     root = nullptr;
-                } else *root = *temp;
+                } else {
+                    *root = *temp;
+                }
                 delete temp;
             } else {
-                Node* temp = min_node(root->right);
+                Node* temp = max_node(root->left);
                 root->value = temp->value;
-                root->right = delete_node(root->right, temp->value);
+                root->left = delete_node(root->left, temp->value);
             }
         }
 
