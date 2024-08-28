@@ -72,24 +72,24 @@ private:
         int bal = balance(node);
 
         // left left
-        if (bal > 1 && value < node->left->value) {
+        if (bal > 1 && value < node->value) {
             return rotate_right(node);
         }
 
         // right right
-        if (bal < -1 && value > node->right->value) {
+        if (bal < -1 && value > node->value) {
             return rotate_left(node);
         }
 
         // left right
-        if (bal > 1 && value > node->left->value) {
-            node->left = rotate_left(node->left);
+        if (bal > 1 && value > node->value) {
+            node = rotate_left(node->left);
             return rotate_right(node);
         }
 
         // right left
-        if (bal < -1 && value < node->right->value) {
-            node->right = rotate_right(node->right);
+        if (bal < -1 && value < node->value) {
+            node = rotate_right(node->right);
             return rotate_left(node);
         }
 
@@ -145,7 +145,7 @@ private:
 
         // left right
         if (bal > 1 && balance(root->left) < 0) {
-            root->left = rotate_left(root->left);
+            root = rotate_left(root->left);
             return rotate_right(root);
         }
 
@@ -156,7 +156,7 @@ private:
 
         // right left
         if (bal < -1 && balance(root->right) > 0) {
-            root->right = rotate_right(root->right);
+            root = rotate_right(root->right);
             return rotate_left(root);
         }
 
