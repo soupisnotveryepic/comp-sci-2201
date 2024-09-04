@@ -125,7 +125,7 @@ private:
         } else {
             if ((!root->left) || (!root->right)) { // if root has one or zero children
                 Node* temp;
-                if (!root->left) {
+                if (root->left != nullptr) {
                     temp = root->left;
                 } else {
                     temp = root->right;
