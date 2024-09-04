@@ -35,6 +35,7 @@ private:
     }
 
     Node* rotate_right(Node* z) {
+        // switch nodes as per rotate right algorithm
         Node* y = z->left;
         Node* T3 = y->right;
         y->right = z;
@@ -46,6 +47,7 @@ private:
     }
 
     Node* rotate_left(Node* z) {
+        // switch nodes as per rotate left algorithm
         Node* y = z->right;
         Node* T2 = y->left;
         y->left = z;
@@ -61,33 +63,37 @@ private:
             return new Node(value); // if node does not exist, make a new node and return that
         }
         if (value < node->value) {
+            // if value is smaller than the current node's value, recursively insert to the left of the current node
             node->left = insert(node->left, value);
         } else if (value > node->value) {
+            // if value is larger than the current node's value, recursively insert to the right of the current node
             node->right = insert(node->right, value);
         } else {
+            // return the current node
             return node;
         }
+
 
         node->height = std::max(height(node->left), height(node->right)) + 1;
         int bal = balance(node);
 
-        // left left
+        // left left rotation case
         if (bal > 1 && value < node->left->value) {
             return rotate_right(node);
         }
 
-        // right right
+        // right right rotation case
         if (bal < -1 && value > node->right->value) {
             return rotate_left(node);
         }
 
-        // left right
+        // left right rotation case
         if (bal > 1 && value > node->left->value) {
             node->left = rotate_left(node->left);
             return rotate_right(node);
         }
 
-        // right left
+        // right left rotation case
         if (bal < -1 && value < node->right->value) {
             node->right = rotate_right(node->right);
             return rotate_left(node);
@@ -118,15 +124,21 @@ private:
             root->right = delete_node(root->right, value);
         } else {
             if ((!root->left) || (!root->right)) { // if root has one or zero children
-                Node* temp = root->left ? root->left : root->right;
-                if (!temp) {
+                Node* temp;
+                if (!root->left) {
+                    temp = root->left;
+                } else {
+                    temp = root->right;
+                }
+                if (!temp) { // case where there is no children
                     temp = root;
                     root = nullptr;
-                } else {
+                } else { // case where is one child
                     *root = *temp;
                 }
                 delete temp;
-            } else {
+            } else { // node with two children
+                // get the maximum node on the left side of the tree and replace the current node with that node
                 Node* temp = max_node(root->left);
                 root->value = temp->value;
                 root->left = delete_node(root->left, temp->value);
@@ -140,23 +152,23 @@ private:
         root->height = std::max(height(root->left), height(root->right)) + 1;
         int bal = balance(root);
 
-        // left left
+        // left left rotation case
         if (bal > 1 && balance(root->left) >= 0) {
             return rotate_right(root);
         }
 
-        // left right
+        // left right rotation case
         if (bal > 1 && balance(root->left) < 0) {
             root->left = rotate_left(root->left);
             return rotate_right(root);
         }
 
-        // right right
+        // right right rotation case
         if (bal < -1 && balance(root->right) <= 0) {
             return rotate_left(root);
         }
 
-        // right left
+        // right left rotation case
         if (bal < -1 && balance(root->right) > 0) {
             root->right = rotate_right(root->right);
             return rotate_left(root);
