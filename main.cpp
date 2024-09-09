@@ -12,38 +12,38 @@ private:
     
     std::vector<Slot> table;
 
-    int hash(const std::string& key) const {
+    int hash(std::string key) const {
         return key.back() - 'a';
     }
 
 public:
     HashTable() : table(26) {}
 
-    void insert(const std::string& key) {
+    void insert(std::string key) {
         int index = hash(key);
         while (true) {
-            if (table[index].status != Slot::OCCUPIED || table[index].key == key) {
-                table[index].key = key;
-                table[index].status = Slot::OCCUPIED;
+            if (table.at(index).status != Slot::OCCUPIED || table.at(index).key == key) {
+                table.at(index).key = key;
+                table.at(index).status = Slot::OCCUPIED;
                 break;
             }
             index = (index + 1) % 26;
         }
     }
 
-    void remove(const std::string& key) {
+    void remove(std::string key) {
         int index = hash(key);
-        while (table[index].status != Slot::NEVER_USED) {
-            if (table[index].status == Slot::OCCUPIED && table[index].key == key) {
-                table[index].status = Slot::TOMBSTONE;
+        while (table.at(index).status != Slot::NEVER_USED) {
+            if (table.at(index).status == Slot::OCCUPIED && table.at(index).key == key) {
+                table.at(index).status = Slot::TOMBSTONE;
                 break;
             }
             index = (index + 1) % 26;
         }
     }
 
-    void print() const {
-        for (const auto& slot : table) {
+    void print() {
+        for (auto slot : table) {
             if (slot.status == Slot::OCCUPIED) {
                 std::cout << slot.key << " ";
             }
@@ -62,18 +62,18 @@ int main() {
     std::string token;
     while ((pos = input.find(" ")) != std::string::npos) {
         token = input.substr(0, pos);
-        if (token[0] == 'A') {
+        if (token.at(0) == 'A') {
             ht.insert(token.substr(1));
-        } else if (token[0] == 'D') {
+        } else if (token.at(0) == 'D') {
             ht.remove(token.substr(1));
         }
         input.erase(0, pos + 1);
     }
     
     if (!input.empty()) {
-        if (input[0] == 'A') {
+        if (input.at(0) == 'A') {
             ht.insert(input.substr(1));
-        } else if (input[0] == 'D') {
+        } else if (input.at(0) == 'D') {
             ht.remove(input.substr(1));
         }
     }
