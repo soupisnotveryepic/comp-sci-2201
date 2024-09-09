@@ -53,7 +53,7 @@ public:
 };
 
 int main() {
-    HashTable ht;
+    HashTable hashTable;
     std::string input;
     
     std::getline(std::cin, input);
@@ -63,22 +63,22 @@ int main() {
     while ((pos = input.find(" ")) != std::string::npos) {
         token = input.substr(0, pos);
         if (token.at(0) == 'A') {
-            ht.insert(token.substr(1));
+            hashTable.insert(token.substr(1));
         } else if (token.at(0) == 'D') {
-            ht.remove(token.substr(1));
+            hashTable.remove(token.substr(1));
         }
         input.erase(0, pos + 1);
     }
     
     if (!input.empty()) {
         if (input.at(0) == 'A') {
-            ht.insert(input.substr(1));
+            hashTable.insert(input.substr(1));
         } else if (input.at(0) == 'D') {
-            ht.remove(input.substr(1));
+            hashTable.remove(input.substr(1));
         }
     }
     
-    ht.print();
+    hashTable.print();
     
     return 0;
 }
