@@ -28,7 +28,10 @@ private:
     int balance(Node* node) {
         // if node exists, return balance, else return 0
         if (node){
-            return height(node->left) - height(node->right);
+            // calculate balance by subracting height of right subtree
+            // from height of left subtree
+            int bal = height(node->left) - height(node->right);
+            return bal;
         } else {
             return 0;
         }  
