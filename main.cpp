@@ -34,7 +34,9 @@ public:
 };
 
 struct Edge {
-    int u, v, cost;
+    int u;
+    int v;
+    int cost;
     bool exists;
     Edge(int u, int v, int cost, bool exists) : u(u), v(v), cost(cost), exists(exists) {}
 };
@@ -78,11 +80,11 @@ int solve(const vector<string>& country, const vector<string>& build, const vect
         if (ds.find(edge.u) != ds.find(edge.v)) {
             ds.unite(edge.u, edge.v);
             if (!edge.exists) {
-                total_cost += edge.cost;  // Cost to build a new road
+                total_cost += edge.cost;
             }
             edges_added++;
         } else if (edge.exists) {
-            total_cost += edge.cost;  // Cost to destroy an existing road
+            total_cost += edge.cost; 
         }
         
         if (edges_added == n - 1) break;
